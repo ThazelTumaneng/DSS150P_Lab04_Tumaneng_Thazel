@@ -1,5 +1,5 @@
 dataset_name: Stroke_Prediction_Dataset
-ingestion_timestamp_utc: '2026-10-13T05:35:27.829998+00:00'
+ingestion_timestamp_utc: '2026-10-13T06:11:37.354214+00:00'
 raw_source_path: data/raw/Stroke_Prediction_Dataset.csv
 raw_source_sha256: 144ea5366832bb5432645c0e49fbb951aadf4ee1e75e73d2e15d3dc0841525bd
 persisted_source_path: data/source/stroke_source.parquet
