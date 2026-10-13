@@ -1,0 +1,39 @@
+dataset_name: Stroke_Prediction_Dataset
+ingestion_timestamp_utc: '2026-10-13T02:35:36.444788+00:00'
+raw_source_path: data/raw/Stroke_Prediction_Dataset.csv
+raw_source_sha256: 144ea5366832bb5432645c0e49fbb951aadf4ee1e75e73d2e15d3dc0841525bd
+persisted_source_path: data/source/stroke_source.parquet
+total_records: 5110
+total_columns: 15
+columns:
+- id
+- gender
+- age
+- hypertension
+- heart_disease
+- ever_married
+- work_type
+- Residence_type
+- avg_glucose_level
+- bmi
+- smoking_status
+- stroke
+- _ingested_at
+- _source_file
+- _source_sha256
+data_types:
+  id: int64
+  gender: str
+  age: float64
+  hypertension: int64
+  heart_disease: int64
+  ever_married: str
+  work_type: str
+  Residence_type: str
+  avg_glucose_level: float64
+  bmi: float64
+  smoking_status: str
+  stroke: int64
+  _ingested_at: str
+  _source_file: str
+  _source_sha256: str
