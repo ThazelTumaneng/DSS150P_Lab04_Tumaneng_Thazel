@@ -1,0 +1,37 @@
+dataset_name: "Stroke_Prediction_Dataset"
+expected_sha256: "144ea5366832bb5432645c0e49fbb951aadf4ee1e75e73d2e15d3dc0841525bd"
+quarantine_on_violation: true
+quarantine_directory: "data/quarantine"
+
+thresholds:
+  missing_bmi_tolerance_pct: 5.0    # 154 / 3265 = 4.71% <= 5.0%
+  minimum_row_count: 5000
+  maximum_row_count: 5200
+
+columns:
+  id:
+    type: integer
+    nullable: false
+    unique: true
+  age:
+    type: float
+    min: 0.08
+    max: 90.0
+  avg_glucose_level:
+    type: float
+    min: 50.0
+    max: 300.0
+  bmi:
+    type: float
+    min: 10.0
+    max: 100.0
+    nullable: true
+  hypertension:
+    type: integer
+    allowed: [0, 1]
+  heart_disease:
+    type: integer
+    allowed: [0, 1]
+  stroke:
+    type: integer
+    allowed: [0, 1]

@@ -92,5 +92,16 @@ Access Airflow Web Interface
   # Click Trigger DAG on the right side
 
   # Monitor the task execution if it was a success
+```
 
+### 3. Disaster Recovery & Rollback Procedures
 
+1. **Source Corrupted / Checksum Mismatch**:
+   - Inspect `data/quarantine/` logs.
+   - Re-fetch source from Hugging Face:
+     `curl -L -o data/raw/Stroke_Prediction_Dataset.csv "https://huggingface.co/datasets/Nnaodeh/Stroke_Prediction_Dataset/resolve/main/Stroke_Prediction_Dataset.csv"`
+   - Run `python -m src.cli --step ingest --force`.
+
+2. **Model Regression / Failed Contract Gate**:
+   - If `src.evaluate` fails the tolerance gate, inspect `metadata/expected_metrics.json`.
+   - Revert `outputs/model/xgb_model.joblib` to the last known checkpoint in git.

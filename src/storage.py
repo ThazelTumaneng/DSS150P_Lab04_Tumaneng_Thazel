@@ -78,3 +78,25 @@ def get_latest_file(directory: Union[str, Path], pattern: str = "*.parquet") -> 
         raise FileNotFoundError(f"No files matching '{pattern}' found in: {dir_path}")
 
     return max(files, key=os.path.getmtime)
+
+
+def export_multiformat(df: pd.DataFrame, base_path: Union[str, Path]):
+    """Exports a DataFrame to JSONL and age-partitioned Parquet directories.
+    
+    Addresses storage format variety requirements (JSON Lines & partition-pruning).
+    """
+    path = Path(base_path)
+    ensure_dir(path.parent)
+
+    # 1. Export JSON Lines (JSONL)
+    jsonl_path = path.with_suffix(".jsonl")
+    df.to_json(jsonl_path, orient="records", lines=True)
+
+    # 2. Export Partitioned Parquet (Hive-style partitioned by age decade)
+    if "age" in df.columns:
+        partition_dir = path.parent / f"{path.stem}_partitioned_age"
+        partition_dir.mkdir(parents=True, exist_ok=True)
+        
+        df_part = df.copy()
+        df_part["age_decade"] = (df_part["age"] // 10) * 10
+        df_part.to_parquet(partition_dir, partition_cols=["age_decade"], index=False)

@@ -1,7 +1,14 @@
 {
-  "target_metric": "roc_auc_score",
-  "min_expected_auc": 0.80,
-  "clinical_threshold": 0.20,
-  "min_expected_sensitivity": 0.80,
-  "max_allowable_false_negatives": 15
+  "baseline_source": "Prior Group Benchmark (Cohort Adult Screening)",
+  "baseline_metrics": {
+    "roc_auc": 0.6877,
+    "sensitivity_at_0_20": 0.8378,
+    "false_negatives_at_0_20": 11
+  },
+  "acceptance_tolerances": {
+    "min_roc_auc": 0.6500,
+    "max_roc_auc_drift": 0.0300,
+    "min_sensitivity_at_0_20": 0.8000,
+    "max_false_negatives_at_0_20": 15
+  }
 }

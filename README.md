@@ -146,7 +146,7 @@ cp .env.example .env
 
 # Dataset Acquisition
 Download `Stroke_Prediction_Dataset.csv` directly from hugging face:
-    `https://huggingface.co/datasets/Nnaodeh/Stroke_Prediction_Dataset?fbclid=IwY2xjawU6sbFleHRuA2FlbQIxMQBwZG9mA3NydGMGYXBwX2lkATAAAR593nd7zWNJODMdRBzaUn2nk1Azu8vldi3-Gi2dtDKHDY8p5I8cUyAnFap0ow_aem_ZIlA9wRJEuwlSzGZXT_ZoQ`
+    `https://huggingface.co/datasets/Nnaodeh/Stroke_Prediction_Dataset`
 
 # Ensure the downloaded csv file is placed in the raw data directory
 mkdir -p data/raw
