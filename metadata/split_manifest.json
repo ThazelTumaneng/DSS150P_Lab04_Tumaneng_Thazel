@@ -1,0 +1,28 @@
+{
+  "random_state": 42,
+  "test_size": 0.3,
+  "stratify": true,
+  "features": [
+    "age",
+    "age_score_risk",
+    "avg_glucose_level",
+    "glucose_score_risk",
+    "bmi",
+    "bmi_score_risk",
+    "hypertension",
+    "heart_disease",
+    "gender_score_risk",
+    "smoking_score_risk",
+    "residence_score_risk",
+    "VAAF",
+    "TGI"
+  ],
+  "target": "stroke",
+  "train_samples": 2285,
+  "test_samples": 980,
+  "train_positives": 172,
+  "train_negatives": 2113,
+  "test_positives": 74,
+  "test_negatives": 906,
+  "scale_pos_weight": 12.2849
+}

@@ -1,0 +1,7 @@
+{
+  "target_metric": "roc_auc_score",
+  "min_expected_auc": 0.80,
+  "clinical_threshold": 0.20,
+  "min_expected_sensitivity": 0.80,
+  "max_allowable_false_negatives": 15
+}

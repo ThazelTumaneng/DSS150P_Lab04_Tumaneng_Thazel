@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dss150p_stroke_airflow
+    restart: always
+    ports:
+      - "8081:8080"
+    environment:
+      - AIRFLOW_HOME=/app/airflow
+      - AIRFLOW__CORE__DAGS_FOLDER=/app/dags
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=False
+      - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=True
+      - PYTHONPATH=/app
+    volumes:
+      - ./dags:/app/dags
+      - ./src:/app/src
+      - ./data:/app/data
+      - ./outputs:/app/outputs
+      - ./metadata:/app/metadata
+      - ./config:/app/config
+    command: >
+      bash -c "airflow standalone"
