@@ -59,15 +59,15 @@ Staging Layer Cleaning Rules
 Curated Layer Clinical Feature Engineering
 1. Asian BMI Classification: Flags elevated cardiovascular and metabolic risks starting at lower body mass index boundaries ($\text{BMI} \ge 23.0\text{ kg/m}^2$).
 2. Glycemic Risk Tiers: Stratifies avg_glucose_level into Normal ($<100\text{ mg/dL}$), Pre-diabetic ($100\text{--}125.99\text{ mg/dL}$), and Diabetic ($\ge 126\text{ mg/dL}$).
-3. Framingham Vascular Age Acceleration Factor (VAAF):$$\text{VAAF} = \frac{\text{Vascular Age}}{\text{Chronological Age}}$$Derives biological vascular wear relative to chronological age using blood pressure, glycemic index, and BMI indicators.
-4. Triglyceride-Glucose Index (TGI):$$\text{TGI} = \ln\left(\frac{\text{avg\_glucose\_level} \times \text{bmi}}{2}\right)$$Serves as a surrogate index for insulin resistance and metabolic dysfunction.
+3. Framingham Vascular Age Acceleration Factor (VAAF): $$\text{VAAF} = \frac{\text{Vascular Age}}{\text{Chronological Age}}$$ Derives biological vascular wear relative to chronological age using blood pressure, glycemic index, and BMI indicators.
+4. Triglyceride-Glucose Index (TGI): $$\text{TGI} = \ln\left(\frac{\text{avg\_glucose\_level} \times \text{bmi}}{2}\right)$$ Serves as a surrogate index for insulin resistance and metabolic dysfunction.
 5. Data Leakage Prevention: Ingestion metadata columns (row_hash, pipeline_run_id, ingested_at) are explicitly purged before model training.
 6. Multi-Format Persistence: Automatically exports Curated data to both Parquet and JSONL, alongside age-stratified partitioned directories.
 
 ## 4. Modeling & Clinical Evaluation Benchmark
 
 Class Imbalance Adjustment
-Across the 2,285 training samples, 2,113 belong to non-stroke cases and 172 to stroke cases. The XGBoost objective function uses positive instance weighting (scale_pos_weight = 12.28):$$\text{scale\_pos\_weight} = \frac{N_{\text{negative}}}{N_{\text{positive}}} = \frac{2113}{172} \approx 12.28$$
+Across the 2,285 training samples, 2,113 belong to non-stroke cases and 172 to stroke cases. The XGBoost objective function uses positive instance weighting (scale_pos_weight = 12.28): scale_pos_weight = $$\frac{N_{\text{negative}}}{N_{\text{positive}}} = \frac{2113}{172} \approx 12.28$$
 
 ## 5. Repository Structure
 ```bash
