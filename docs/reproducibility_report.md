@@ -20,6 +20,7 @@ To guarantee complete auditability and prevent silent data corruption, input dat
   144ea5366832bb5432645c0e49fbb951aadf4ee1e75e73d2e15d3dc0841525bd
 
 ## 2. Medallion Layer Lineage & Transformation Audit
+```bash
 [Raw Source CSV] (5,110 rows)
        │
        ▼ (SHA-256 & Schema Validation)
@@ -36,6 +37,7 @@ To guarantee complete auditability and prevent silent data corruption, input dat
        │
        ▼ (Stratified 70/30 Split, seed=42)
 [Partitioned Partitions: train.parquet (2,285) & test.parquet (980)]
+```
 
 Data Cleaning & Cohort Isolation (Staging)
 1. Target Adult Cohort ($35 \le \text{age} \le 90$): Isolates the clinically actionable population where stroke prevalence is non-negligible ($3,265$ records retained from $5,110$ raw rows).
