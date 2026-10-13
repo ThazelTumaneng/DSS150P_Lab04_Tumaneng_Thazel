@@ -1,107 +1,72 @@
 # Operations Runbook: End-to-End Stroke Risk Pipeline
 
-**System:** Medallion Data Engineering & Predictive ML Pipeline  
-**Orchestration Support:** Python CLI, Pytest, Docker Compose, Apache Airflow 3  
+**System:** Medallion Data Engineering & Predictive ML Pipeline (DSS150P)  
+**Execution Modalities:** Native Python CLI, Pytest Test Harness, Docker Compose, Apache Airflow  
+**Orchestration DAG:** `stroke_predictive_repro_pipeline`  
+**Containerized Endpoint:** `http://localhost:8081`  
 
 ---
 
-## 1. System Requirements & Prerequisites
+## 1. System Requirements & Environment Setup
 
-### Native Host Requirements (macOS)
+### Native Host Requirements (macOS / Darwin ARM64)
 - **Python:** Version 3.11 or 3.12
-- **Homebrew Package Manager**
-- **C++ OpenMP Multithreading Runtime:** XGBoost requires OpenMP:
+- **Package Manager:** Homebrew
+- **C++ OpenMP Runtime:** Required for XGBoost multi-threaded gradient boosting:
   ```bash
   brew install libomp
-  ```
 
-### 2. Local Environment Setup
+  # 1. Create and activate isolated Python environment
+  python3 -m venv venv
+  source venv/bin/activate
 
-##### Clone Repository 
-```
-git clone <REPOSITORY_URL>
-```
-##### Configure Virtual Environment
-```
-python3 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
-```
-###### Environment Variable Configuration
-```
-PIPELINE_ENV=development
-LOG_LEVEL=INFO
-CONFIG_PATH=config/settings.yml
-RANDOM_STATE=42
-DISABLE_PANDERA_IMPORT_WARNING=True
-AIRFLOW_HOME=/app/airflow
-```
-##### Pipeline Execution Modes
-Execute all 5 stages:
-```
-python -m src.cli --all
-```
-Step-by-step execution:
-```
-python -m src.cli --step ingest      # Raw CSV -> Parquet with SHA-256 lineage
-python -m src.cli --step validate    # Pandera data contract validation
-python -m src.cli --step transform   # Medallion Staging and Curated feature store
-python -m src.cli --step train       # Stratified split & weighted XGBoost training
-python -m src.cli --step evaluate    # Multi-threshold ASCVD simulation & metrics
-```
+  # 2. Upgrade pip and install pinned project dependencies
+  pip install --upgrade pip
+  pip install -r requirements.txt
 
-##### Automated Testing Suite 
-Verify pipeline integrity, data contracts, and output artifacts:
-```
-pytest -v
-```
+  PIPELINE_ENV=development
+  LOG_LEVEL=INFO
+  CONFIG_PATH=config/settings.yml
+  RANDOM_STATE=42
+  DISABLE_PANDERA_IMPORT_WARNING=True
+  AIRFLOW_HOME=/app/airflow
 
-##### Containerized Pipeline Execution
-```
-# 1. Build the container image
-docker compose build
+  # 3. End-to-End Pipeline Execution
+  python -m src.cli --all
 
-# 2. Execute the containerized pipeline
-docker compose up
+  # 4. Step-by-Step Execution
+  # Step 1: Ingestion (Source Layer - SHA-256 lineage, row hashing, deduplication)
+  python -m src.cli --step ingest
 
-# 3. Stop and clean up containers
-docker compose down
-```
+  # Step 2: Data Quality & Contract Gate (Pandera schema & boundary validation)
+  python -m src.cli --step validate
 
-##### Apache Airflow Orchestration
-Start Airflow Standalone
-```
-docker compose up -d
-```
+  # Step 3: Medallion Transformation (Staging cohort filtering & Curated clinical features)
+  python -m src.cli --step transform
 
-##### Retrieve Generated Admin Credentials
-Airflow 3 generates user credential sinside the container's auth manager file:
-```
-docker exec -it dss150p_stroke_airflow cat /app/airflow/simple_auth_manager_passwords.json.generated
-```
-Access Airflow Web Interface
- ```
-  # Open browser and navigate to:
-  http://localhost:8081
+  # Step 4: Model Training (Stratified 70/30 split & scale_pos_weight=12.28 XGBoost)
+  python -m src.cli --step train
 
-  # Log in using username and the password retrieved from the previous step
+  # Step 5: Model Evaluation & Contract Gate (ASCVD multi-threshold simulation & acceptance check)
+  python -m src.cli --step evaluate
 
-  # Locate the DAG and toggle the DAG switch to make it active
+  # 5. Automated Verification Suite
+  pytest -v
 
-  # Click Trigger DAG on the right side
+  # 6. Build the container image and launch services in detached mode
+  docker compose up --build -d
 
-  # Monitor the task execution if it was a success
-```
+  # 7. Verify container health and port bindings
+  docker compose ps
 
-### 3. Disaster Recovery & Rollback Procedures
+  # 8. Inspect container startup logs
+  docker compose logs airflow | grep -i "password"
 
-1. **Source Corrupted / Checksum Mismatch**:
-   - Inspect `data/quarantine/` logs.
-   - Re-fetch source from Hugging Face:
-     `curl -L -o data/raw/Stroke_Prediction_Dataset.csv "https://huggingface.co/datasets/Nnaodeh/Stroke_Prediction_Dataset/resolve/main/Stroke_Prediction_Dataset.csv"`
-   - Run `python -m src.cli --step ingest --force`.
+  # 9. Verify the DAG is parsed and unpaused
+  docker compose exec airflow airflow dags list
 
-2. **Model Regression / Failed Contract Gate**:
-   - If `src.evaluate` fails the tolerance gate, inspect `metadata/expected_metrics.json`.
-   - Revert `outputs/model/xgb_model.joblib` to the last known checkpoint in git.
+  # 10. Trigger an execution run
+  docker compose exec airflow airflow dags trigger stroke_predictive_repro_pipeline
+
+  # 11. Or run an integrated end-to-end DAG test run
+  docker compose exec airflow airflow dags test stroke_predictive_repro_pipeline 2026-10-13
