@@ -1,0 +1,95 @@
+# =====================================================================
+# Environments & Credentials
+# =====================================================================
+venv/
+.venv/
+env/
+ENV/
+
+# Never commit local secrets (keep .env.example tracked)
+.env
+*.local.env
+
+# =====================================================================
+# Python Bytecode & Cache
+# =====================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing & Linting
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# =====================================================================
+# macOS & Editor Artifacts
+# =====================================================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*~
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# =====================================================================
+# Data Files & Generated Artifacts
+# =====================================================================
+# Ignore generated and intermediate data batches
+data/raw/*
+data/staging/*
+data/curated/*
+data/partitioned/*
+data/quarantine/*
+
+# Keep directory structure tracked on git even if empty
+!data/raw/.gitkeep
+!data/staging/.gitkeep
+!data/curated/.gitkeep
+!data/partitioned/.gitkeep
+!data/quarantine/.gitkeep
+!data/source/.gitkeep
+
+# Ignore large binary files wherever they appear
+*.parquet
+*.csv.gz
+*.zip
+*.tar.gz
+
+# =====================================================================
+# Model Artifacts & Outputs
+# =====================================================================
+# Ignore heavy trained model binaries
+outputs/model/*
+!outputs/model/.gitkeep
+*.joblib
+*.pkl
+*.model
+
+# (Optional) Uncomment if you only want metrics.json tracked and not prediction dumps:
+# outputs/predictions.csv

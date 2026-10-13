@@ -1,0 +1,25 @@
+dataset:
+  raw_filename: "Stroke_Prediction_Dataset.csv"
+  target_column: "stroke"
+  age_range: [35.0, 90.0]
+  asian_bmi_threshold: 23.0
+  glucose_bins: [0, 140, 200, .inf]
+
+paths:
+  raw_dir: "data/raw"
+  source_dir: "data/source"
+  staging_dir: "data/staging"
+  curated_dir: "data/curated"
+  quarantine_dir: "data/quarantine"
+  outputs_dir: "outputs"
+  model_dir: "outputs/model"
+
+model:
+  random_state: 42
+  test_size: 0.30
+  n_estimators: 200
+  learning_rate: 0.03
+  max_depth: 3
+  subsample: 0.7
+  colsample_bytree: 0.7
+  clinical_threshold: 0.20

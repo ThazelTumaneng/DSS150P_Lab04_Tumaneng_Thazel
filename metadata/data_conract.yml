@@ -1,0 +1,61 @@
+dataset_name: "Stroke_Prediction_Dataset"
+primary_key: "id"
+schema:
+  id: { 
+    type: integer, 
+    nullable: false, 
+    unique: true 
+  }
+  gender: { 
+    type: string, 
+    allowed_values: ["Male", "Female", "Other"] 
+  }
+  age: { 
+    type: float, 
+    min: 0.0, 
+    max: 120.0 
+  }
+  hypertension: { 
+    type: integer, 
+    allowed_values: [0, 1] 
+  }
+  heart_disease: { 
+    type: integer, 
+    allowed_values: [0, 1] 
+  }
+  ever_married: { 
+    type: string, 
+    allowed_values: ["Yes", "No"] 
+  }
+  work_type: { 
+    type: string, 
+    nullable: false 
+  }
+  Residence_type: { 
+    type: string, 
+    allowed_values: ["Urban", "Rural"] 
+  }
+  avg_glucose_level: { 
+    type: float, 
+    min: 30.0, 
+    max: 350.0 
+  }
+  bmi: { 
+    type: float, 
+    min: 10.0, 
+    max: 100.0, 
+    nullable: true 
+  }
+  smoking_status: { 
+    type: string, 
+    allowed_values: ["never smoked", "formerly smoked", "smokes", "Unknown"] 
+  }
+  stroke: { 
+    type: integer, 
+    allowed_values: [0, 1] 
+  }
+cleaning_rules:
+  age_filter: "between 35 and 90 years old"
+  bmi_imputation: "cohort median (29.8)"
+  gender_mode_imputation: "'Other' replaced by statistical mode ('Female')"
+  smoking_status_pediatric_fix: "'Unknown' replaced with 'never smoked' where work_type == 'children'"
