@@ -44,15 +44,15 @@ The pipeline processes data through sequential, decoupled stages to ensure audit
   $$\text{VAAF} = \frac{\text{Vascular Age}}{\text{Chronological Age}}$$
   Derives biological vascular wear relative to chronological age using blood pressure, glycemic index, and BMI indicators.
 * **Triglyceride-Glucose Index (`TGI`):**
-  $$\text{TGI} = \ln\left(\frac{\text{avg\_glucose\_level} \times \text{bmi}}{2}\right)$$
+  $$\text{TGI} = \ln\left(\frac{\text{avg glucose level} \times \text{bmi}}{2}\right)$$
   Serves as a surrogate index for insulin resistance and metabolic dysfunction.
 
 
 ## 4. Modeling & Clinical Evaluation Benchmark
 
 ### Class Imbalance Adjustment
-Across the 2,285 training samples, 2,113 belong to non-stroke cases and 172 to stroke cases. The XGBoost objective function uses positive instance weighting:
-$$\text{scale\_pos\_weight} = \frac{2113}{172} \approx 12.28$$
+Across the 2,285 training samples, 2,113 belong to non-stroke cases and 172 to stroke cases. The XGBoost objective function uses positive instance weighting (`scale_pos_weight = 12.28`):
+$$\text{scale\_weight} = \frac{2113}{172} \approx 12.28$$
 
 ### Test Set Threshold Simulation Results ($N = 980$, $74$ Stroke Cases)
 
