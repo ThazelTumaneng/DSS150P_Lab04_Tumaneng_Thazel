@@ -11,4 +11,4 @@ seaborn==0.13.2
 click==8.1.7
 pytest==8.2.2
 python-dotenv==1.0.1
-apache-airflow==3.0.0a1
+apache-airflow==2.9.3

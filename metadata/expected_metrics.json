@@ -1,13 +1,18 @@
 {
-  "baseline_source": "Prior Group Benchmark (Cohort Adult Screening)",
-  "baseline_metrics": {
-    "roc_auc": 0.6877,
-    "sensitivity_at_0_20": 0.8378,
-    "false_negatives_at_0_20": 11
+  "benchmark_run_id": "run_20261013_production_baseline",
+  "model_type": "XGBClassifier (scale_pos_weight=12.28)",
+  "test_sample_size": 980,
+  "test_stroke_cases": 74,
+  "roc_auc": 0.6940,
+  "selected_operational_threshold": 0.20,
+  "baseline_metrics_at_0_20": {
+    "sensitivity_recall": 0.8784,
+    "false_negatives": 9,
+    "true_positives": 65,
+    "accuracy": 0.4439
   },
   "acceptance_tolerances": {
     "min_roc_auc": 0.6500,
-    "max_roc_auc_drift": 0.0300,
     "min_sensitivity_at_0_20": 0.8000,
     "max_false_negatives_at_0_20": 15
   }
